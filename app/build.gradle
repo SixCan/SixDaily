@@ -36,6 +36,8 @@ dependencies {
     implementation "com.android.support:design:$supportVersion"
 
     implementation "ca.six.util:LogUtil:1.0.1"
+    implementation "com.squareup.okhttp3:okhttp:3.8.1"
+    implementation "com.squareup.picasso:picasso:2.5.2"
 
     implementation "io.reactivex.rxjava2:rxjava:2.1.1"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
@@ -52,6 +54,8 @@ dependencies {
     testImplementation "junit:junit:4.12"
     testImplementation "org.mockito:mockito-core:2.7.5"
     testImplementation "org.robolectric:robolectric:3.3.2"
+
+    testImplementation "com.squareup.okhttp3:mockwebserver:3.8.1"
 
 
     androidTestImplementation "com.android.support.test:runner:0.5"
