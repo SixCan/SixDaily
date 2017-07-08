@@ -1,10 +1,11 @@
 package ca.six.daily.biz.home.model
 
 import ca.six.daily.R
+import ca.six.daily.data.Story
 import ca.six.daily.view.RvViewHolder
 import ca.six.daily.view.ViewType
 
-class ListItemView(val name : String) : ViewType {
+class ListItemViewModel(val name : String) : ViewType, Story(name) {
 
     override fun getViewType(): Int {
         return R.layout.item_daily_list

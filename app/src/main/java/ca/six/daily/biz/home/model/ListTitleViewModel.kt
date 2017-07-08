@@ -4,7 +4,7 @@ import ca.six.daily.R
 import ca.six.daily.view.RvViewHolder
 import ca.six.daily.view.ViewType
 
-class TitleView(val title : String) : ViewType {
+class ListTitleViewModel(val title : String) : ViewType {
 
     override fun getViewType(): Int {
         return R.layout.item_title
