@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     tools:context="ca.six.daily.biz.home.DailyListActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <android.support.v7.widget.RecyclerView android:id="@+id/rvDailyList"
+        android:layout_width="match_parent" android:layout_height="match_parent"/>
 
 </RelativeLayout>

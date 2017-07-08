@@ -2,6 +2,7 @@
 2. write unit test
 3. write espresso test
 
+4. refactor the multiple type adapter for rv
 
 [backlog]
 1. multiple module: daily, hot, category, ...,  common

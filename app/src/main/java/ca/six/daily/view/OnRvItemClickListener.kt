@@ -1,15 +1,10 @@
 package ca.six.daily.view
 
-import android.app.Service
-import android.os.Vibrator
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.widget.RecyclerView
 import android.view.GestureDetector
 import android.view.MotionEvent
 
-/**
- * Created by songzhw on 2016-06-09.
- */
 abstract class OnRvItemClickListener(private val rv: RecyclerView) : RecyclerView.OnItemTouchListener {
     private val gestureDetector: GestureDetectorCompat
 
