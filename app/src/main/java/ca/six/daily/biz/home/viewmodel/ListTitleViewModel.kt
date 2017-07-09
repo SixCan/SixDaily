@@ -1,4 +1,4 @@
-package ca.six.daily.biz.home.model
+package ca.six.daily.biz.home.viewmodel
 
 import ca.six.daily.R
 import ca.six.daily.view.RvViewHolder

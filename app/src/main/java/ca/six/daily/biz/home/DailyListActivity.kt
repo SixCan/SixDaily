@@ -3,8 +3,8 @@ package ca.six.daily.biz.home
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import ca.six.daily.R
-import ca.six.daily.biz.home.model.ListItemViewModel
-import ca.six.daily.biz.home.model.ListTitleViewModel
+import ca.six.daily.biz.home.viewmodel.ListItemViewModel
+import ca.six.daily.biz.home.viewmodel.ListTitleViewModel
 import ca.six.daily.core.BaseActivity
 import ca.six.daily.core.network.HttpEngine
 import ca.six.daily.data.DailyListResponse
