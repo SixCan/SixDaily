@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 
 class WhiteSpaceDivider : RecyclerView.ItemDecoration() {
-    val height: Int = 25
+    val height: Int = 35
     val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
