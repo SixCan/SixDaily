@@ -13,9 +13,9 @@ class ListTitleViewModel(val title : String) : ViewType {
     }
 
     override fun bind(holder: RvViewHolder) {
-        val formatterIn = SimpleDateFormat("yyyyMMdd")
+        val formatterIn = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
         val date = formatterIn.parse(title)
-        val formatterOut = SimpleDateFormat("MM, dd yyyy")
+        val formatterOut = SimpleDateFormat("MMM, dd yyyy", Locale.CANADA)
         holder.setText(R.id.tvTitleItem, formatterOut.format(date))
     }
 
