@@ -27,7 +27,7 @@ class DailyListActivity : BaseActivity() {
                 .map {
                     data.add(ListTitleViewModel(it.date))
                     it.stories.forEach{ story ->
-                        data.add(ListItemViewModel(story.toString()))
+                        data.add(ListItemViewModel(story))
                     }
                 }
                 .subscribe{
