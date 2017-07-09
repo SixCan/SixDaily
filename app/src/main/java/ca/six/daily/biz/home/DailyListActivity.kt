@@ -9,6 +9,7 @@ import ca.six.daily.core.BaseActivity
 import ca.six.daily.core.network.HttpEngine
 import ca.six.daily.data.DailyListResponse
 import ca.six.daily.view.ViewType
+import ca.six.daily.view.WhiteSpaceDivider
 import kotlinx.android.synthetic.main.activity_daily_list.*
 
 // 第一屏内容(banner与list) ： https://news-at.zhihu.com/api/4/news/latest
@@ -19,6 +20,7 @@ class DailyListActivity : BaseActivity() {
         setContentView(R.layout.activity_daily_list)
 
         rvDailyList.layoutManager = LinearLayoutManager(this)
+        rvDailyList.addItemDecoration(WhiteSpaceDivider())
 
         val data : MutableList<ViewType> = ArrayList()
 
