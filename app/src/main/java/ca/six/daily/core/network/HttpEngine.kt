@@ -4,11 +4,20 @@ import ca.six.daily.core.BaseApp
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.OkHttpClient
 
 object HttpEngine {
     val PREFIX = " https://news-at.zhihu.com/api/4/"
+    val http : OkHttpClient by lazy {
+        OkHttpClient.Builder()
+                .addInterceptor(MockResponseInterceptor())
+                .build()
+    }
+
+    // for test
+    var isMock = false
+    var mockJson = ""
 
     fun requestString(http: OkHttpClient, end: String): String {
         val req = Request.Builder()
@@ -20,7 +29,8 @@ object HttpEngine {
 
     fun request(end: String): Observable<String> {
         val observable = Observable.create<String> { emitter ->
-            val responseString = requestString(BaseApp.http, end)
+            val responseString = requestString(http, end)
+            println("szw resp str = $responseString")
             emitter.onNext(responseString)
         }
                 .subscribeOn(Schedulers.io())

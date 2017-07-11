@@ -1,10 +1,8 @@
 package ca.six.daily.biz.home
-import android.os.Build
-import ca.six.daily.BuildConfig
+
+import ca.six.daily.core.network.HttpEngine
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.Test
 
 import org.junit.Before
@@ -14,12 +12,8 @@ import io.reactivex.internal.schedulers.ExecutorScheduler
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 import io.reactivex.android.plugins.RxAndroidPlugins
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
+import org.junit.After
 
-@RunWith(RobolectricTestRunner::class)
-@Config(constants = BuildConfig::class, sdk = intArrayOf(Build.VERSION_CODES.LOLLIPOP))
 class DailyListPresenterTest {
     @Mock lateinit var view : IDailyListView
     val presenter : DailyListPresenter by lazy {
@@ -45,15 +39,19 @@ class DailyListPresenterTest {
 
     @Test
     fun requestData() {
-        val server = MockWebServer()
-        server.enqueue(MockResponse().setBody("hello, world"))
-        server.start()
-        val baseUrl = server.url("news/latest") //=> http://localhost:53986/news/latest
+        val rawResp = "{\"date\":\"20170710\",\"stories\":[{\"images\":[\"a.jpg\"],\"type\":0,\"id\":9517717,\"ga_prefix\":\"071022\",\"title\":\"小事 · 临行密密缝\"}]}"
+        HttpEngine.mockJson = rawResp
+        HttpEngine.isMock = true
 
-        presenter.requestData()
-//        Mockito.verify(view).refresh(Mockito.any())
+        presenter .requestData()
 
-        server.shutdown()
+    }
+
+    @After
+    fun tearDown(){
+        HttpEngine.isMock = false
+        HttpEngine.mockJson = ""
     }
 
 }
+
