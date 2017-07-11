@@ -13,6 +13,8 @@ import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 import io.reactivex.android.plugins.RxAndroidPlugins
 import org.junit.After
+import io.reactivex.plugins.RxJavaPlugins
+import org.mockito.Mockito
 
 class DailyListPresenterTest {
     @Mock lateinit var view : IDailyListView
@@ -33,17 +35,21 @@ class DailyListPresenterTest {
             }
         }
 
+        RxJavaPlugins.setInitIoSchedulerHandler { scheduler -> immediate }
+        RxJavaPlugins.setInitComputationSchedulerHandler { scheduler -> immediate }
+        RxJavaPlugins.setInitNewThreadSchedulerHandler { scheduler -> immediate }
+        RxJavaPlugins.setInitSingleSchedulerHandler { scheduler -> immediate }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { scheduler -> immediate }
     }
 
 
     @Test
-    fun requestData() {
-        val rawResp = "{\"date\":\"20170710\",\"stories\":[{\"images\":[\"a.jpg\"],\"type\":0,\"id\":9517717,\"ga_prefix\":\"071022\",\"title\":\"小事 · 临行密密缝\"}]}"
-        HttpEngine.mockJson = rawResp
+    fun testRequestData() {
         HttpEngine.isMock = true
+        HttpEngine.mockJson = "{\"date\":\"20170710\",\"stories\":[{\"images\":[\"https://pic3.zhimg.com/v2-604f4f03fc22ce1bf59788e20aefd646.jpg\"],\"type\":0,\"id\":9517717,\"ga_prefix\":\"071022\",\"title\":\"小事 · 临行密密缝\"}]}"
 
-        presenter .requestData()
+        presenter.requestData()
+        Mockito.verify(view).refresh(Mockito.anyList())
 
     }
 
@@ -54,4 +60,3 @@ class DailyListPresenterTest {
     }
 
 }
-

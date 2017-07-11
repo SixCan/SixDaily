@@ -1,6 +1,5 @@
 package ca.six.daily.core.network
 
-import ca.six.daily.core.BaseApp
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
