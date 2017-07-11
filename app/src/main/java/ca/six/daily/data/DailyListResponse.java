@@ -14,20 +14,18 @@ public class DailyListResponse {
     public ArrayList<TopStory> top_stories;
 
     public DailyListResponse(String jsonStr) {
-        if (!TextUtils.isEmpty(jsonStr)) {
-            try {
-                JSONObject json = new JSONObject(jsonStr);
-                date = json.optString("date");
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            date = json.optString("date");
 
-                JSONArray array = json.optJSONArray("stories");
-                stories = Story.createWithJsonArray(array);
+            JSONArray array = json.optJSONArray("stories");
+            stories = Story.createWithJsonArray(array);
 
-                JSONArray array2 = json.optJSONArray("top_stories");
-                top_stories = TopStory.createWithJsonArray(array);
+            JSONArray array2 = json.optJSONArray("top_stories");
+            top_stories = TopStory.createWithJsonArray(array);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
