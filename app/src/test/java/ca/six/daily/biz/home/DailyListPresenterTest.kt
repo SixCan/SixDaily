@@ -1,4 +1,6 @@
 package ca.six.daily.biz.home
+import android.os.Build
+import ca.six.daily.BuildConfig
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import okhttp3.mockwebserver.MockResponse
@@ -12,7 +14,12 @@ import io.reactivex.internal.schedulers.ExecutorScheduler
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 import io.reactivex.android.plugins.RxAndroidPlugins
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@RunWith(RobolectricTestRunner::class)
+@Config(constants = BuildConfig::class, sdk = intArrayOf(Build.VERSION_CODES.LOLLIPOP))
 class DailyListPresenterTest {
     @Mock lateinit var view : IDailyListView
     val presenter : DailyListPresenter by lazy {
