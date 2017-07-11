@@ -6,7 +6,7 @@ import ca.six.daily.view.ViewType
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ListTitleViewModel(val title : String) : ViewType {
+class ListTitleViewModel(val title: String) : ViewType {
 
     override fun getViewType(): Int {
         return R.layout.item_title

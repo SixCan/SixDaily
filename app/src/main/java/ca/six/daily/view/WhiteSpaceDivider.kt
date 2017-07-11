@@ -8,7 +8,7 @@ import android.view.View
 
 class WhiteSpaceDivider : RecyclerView.ItemDecoration() {
     val height: Int = 35
-    val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    val paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
         paint.color = 0xcccccc

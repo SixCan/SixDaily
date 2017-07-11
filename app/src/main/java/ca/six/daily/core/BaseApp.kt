@@ -12,8 +12,8 @@ class BaseApp : Application() {
         http = OkHttpClient()
     }
 
-    companion object{
-        var app : Context by Delegates.notNull<Context>()
-        var http : OkHttpClient by Delegates.notNull<OkHttpClient>()
+    companion object {
+        var app: Context by Delegates.notNull<Context>()
+        var http: OkHttpClient by Delegates.notNull<OkHttpClient>()
     }
 }
