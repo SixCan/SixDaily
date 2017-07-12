@@ -1,6 +1,7 @@
 package ca.six.daily.biz.detail
 
 import android.os.Bundle
+import android.text.Html
 import ca.six.daily.R
 import ca.six.daily.core.BaseActivity
 import com.squareup.picasso.Picasso
@@ -15,16 +16,17 @@ class DailyDetailActivity : BaseActivity(), IDailyDetailView {
 
         wvContent.setInitialScale(230)
         wvContent.settings.textZoom = 150
+
         val presenter = DailyDetailPresenter(this)
         presenter.getDetails("3892357")
     }
 
     override fun updateDetails(details : HashMap<String, String>) {
         Picasso.with(this)
-                .load(details.get("image"))
+                .load(details["image"])
                 .into(ivBanner)
 
-        wvContent.loadData(details.get("body"), "text/html", "utf-8")
+        wvContent.loadData(details["body"], "text/html", "utf-8")
     }
 
 }
