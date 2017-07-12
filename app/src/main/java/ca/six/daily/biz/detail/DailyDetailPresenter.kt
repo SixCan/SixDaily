@@ -14,8 +14,9 @@ class DailyDetailPresenter(val view: IDailyDetailView) {
         HttpEngine.request("news/" + id)
                 .map { DailyDetailResponse(it) }
                 .map {
-                    details.put("title", "")
-                    details.put("body", "")
+                    details.put("title", it.title)
+                    details.put("body", it.body)
+                    details.put("image", it.image)
                     details
                 }
                 .subscribe {
