@@ -10,29 +10,33 @@ class DailyListPresenter(val view: IDailyListView) {
     lateinit var listData : DailyListResponse
     var ids : MutableList<Long> = ArrayList()
 
+
     fun requestData() {
         val data: MutableList<ViewType> = ArrayList()
 
         HttpEngine.request("news/latest")
-                .map {
-                    listData = DailyListResponse(it)
+                .map { jsonString ->
+                    listData = DailyListResponse(jsonString)
                     listData
                 }
-                .map {
-                    data.add(ListTitleViewModel(it.date))
-                    it.stories.forEach { story ->
+                .map { resp ->
+                    data.add(ListTitleViewModel(resp.date))
+                    resp.stories.forEach { story ->
                         data.add(ListItemViewModel(story))
+                    }
+                    listData
+                }
+                .map { resp ->
+                    // refresh the id list after each get a new list data
+                    ids.clear()
+                    resp.stories.forEach{ story ->
+                        ids.add(story.id)
                     }
                 }
                 .subscribe { view.refresh(data) }
 
-        // refresh the id list after each get a new list data
-        ids.clear()
-        listData.stories.forEach{ story ->
-            ids.add(story.id)
-        }
-
     }
+
 
     fun jumpToDetail(position: Int) {
         // TODO handle this IndexOutOfBoundsException, and test it too
