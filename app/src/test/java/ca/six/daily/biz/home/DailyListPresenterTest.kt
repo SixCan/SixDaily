@@ -60,9 +60,11 @@ class DailyListPresenterTest {
         presenter.requestData()
         presenter.jumpToDetail(0)
 
-        val args = hashMapOf("it_detailID" to "9517717")
-        verify(view).jumpToDetilsPage(args)
+//        val ids = longArrayOf(9517717) //=>返回的是一个LongArray对象，不是Array<Long>。我晕
+        val ids = arrayOf(9517717L)
+        verify(view).jumpToDetilsPage(9517717, ids)
     }
+
 
     @Test(expected = IndexOutOfBoundsException::class)
     fun testJumpToDetail_gotSuccessuflData_thenClickWrongPosition(){

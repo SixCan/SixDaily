@@ -1,12 +1,12 @@
 package ca.six.daily.biz.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import ca.six.daily.R
 import ca.six.daily.biz.detail.DailyDetailActivity
 import ca.six.daily.core.BaseActivity
-import ca.six.daily.utils.jump
 import ca.six.daily.view.*
 import kotlinx.android.synthetic.main.activity_daily_list.*
 
@@ -45,9 +45,13 @@ class DailyListActivity : BaseActivity(), IDailyListView {
 
     }
 
-    override fun jumpToDetilsPage(args: Map<String, String>) {
-        jump(DailyDetailActivity::class.java, args)
+    override fun jumpToDetilsPage(thisStoryID: Long, allIDs: Array<Long>) {
+        var it = Intent(this, DailyDetailActivity::class.java)
+        it.putExtra("it_detailID", thisStoryID)
+        it.putExtra("it_detailID_array", allIDs)
+        startActivity(it)
     }
+
 
 }
 
