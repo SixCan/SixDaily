@@ -6,12 +6,12 @@ import android.content.Intent
 import android.util.TypedValue
 import android.widget.EditText
 
-fun Activity.jump(clz: Class<out Any>) {
+fun Activity.jump(clz: Class<out Activity>) {
     val it = Intent(this, clz)
     this.startActivity(it)
 }
 
-fun Activity.jump(clz: Class<out Any>, args: Map<String, String>) {
+fun Activity.jump(clz: Class<out Activity>, args: Map<String, String>) {
     val it = Intent(this, clz)
     for ((k, v) in args) {
         it.putExtra(k, v)

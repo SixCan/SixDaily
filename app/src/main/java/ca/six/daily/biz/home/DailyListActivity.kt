@@ -3,7 +3,9 @@ package ca.six.daily.biz.home
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import ca.six.daily.R
+import ca.six.daily.biz.detail.DailyDetailActivity
 import ca.six.daily.core.BaseActivity
+import ca.six.daily.utils.jump
 import ca.six.daily.view.OneAdapter
 import ca.six.daily.view.RvViewHolder
 import ca.six.daily.view.ViewType
@@ -36,5 +38,10 @@ class DailyListActivity : BaseActivity(), IDailyListView {
     override fun refresh(data: MutableList<ViewType>) {
         rvDailyList.adapter = DailyListAdapter(data)
     }
+
+    override fun jumpToDetilsPage(args: Map<String, String>) {
+        jump(DailyDetailActivity::class.java, args)
+    }
+
 
 }
