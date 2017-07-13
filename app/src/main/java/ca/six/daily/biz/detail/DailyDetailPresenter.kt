@@ -9,7 +9,7 @@ import ca.six.daily.data.DailyDetailResponse
  */
 class DailyDetailPresenter(val view: IDailyDetailView) {
 
-    fun getDetails(id: String) {
+    fun getDetails(id: Long) {
         val details = hashMapOf<String, String>()
         HttpEngine.request("news/" + id)
                 .map { DailyDetailResponse(it) }
@@ -20,6 +20,7 @@ class DailyDetailPresenter(val view: IDailyDetailView) {
                     details
                 }
                 .subscribe {
+                    println("DailyDetailPresenter-subscribe")
                     view.updateDetails(details)
                 }
     }
