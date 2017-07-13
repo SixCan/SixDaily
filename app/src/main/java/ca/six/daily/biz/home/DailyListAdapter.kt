@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import ca.six.daily.view.RvViewHolder
 import ca.six.daily.view.ViewType
 
-class DailyListAdapter(var data: List<ViewType>) : RecyclerView.Adapter<RvViewHolder>() {
+class DailyListAdapter(var data: List<ViewType<out Any>>) : RecyclerView.Adapter<RvViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return data[position].getViewType()

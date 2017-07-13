@@ -7,7 +7,7 @@ import ca.six.daily.view.RvViewHolder
 import ca.six.daily.view.ViewType
 import com.squareup.picasso.Picasso
 
-class ListItemViewModel(val story: Story) : ViewType {
+class ListItemViewModel(val story: Story) : ViewType<Story> {
 
     override fun getViewType(): Int {
         return R.layout.item_daily_list
@@ -20,5 +20,10 @@ class ListItemViewModel(val story: Story) : ViewType {
                 .load(story.images[0])
                 .into(holder.getView<ImageView>(R.id.ivListItemTitle))
     }
+
+    override fun getData() : Story{
+        return story
+    }
+
 
 }

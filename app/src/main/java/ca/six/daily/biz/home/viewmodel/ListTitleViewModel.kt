@@ -6,7 +6,7 @@ import ca.six.daily.view.ViewType
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ListTitleViewModel(val title: String) : ViewType {
+class ListTitleViewModel(val title: String) : ViewType<String> {
 
     override fun getViewType(): Int {
         return R.layout.item_title
@@ -17,6 +17,10 @@ class ListTitleViewModel(val title: String) : ViewType {
         val date = formatterIn.parse(title)
         val formatterOut = SimpleDateFormat("MMM, dd yyyy", Locale.CANADA)
         holder.setText(R.id.tvTitleItem, formatterOut.format(date))
+    }
+
+    override fun getData(): String {
+        return title
     }
 
 }

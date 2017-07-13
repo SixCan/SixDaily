@@ -39,19 +39,16 @@ class DailyListActivity : BaseActivity(), IDailyListView {
         })
     }
 
-
-    override fun refresh(data: MutableList<ViewType>) {
+    override fun refresh(data: MutableList<ViewType<out Any>>) {
         rvDailyList.adapter = DailyListAdapter(data)
 
     }
 
     override fun jumpToDetilsPage(thisStoryID: Long, allIDs: Array<Long>) {
-        var it = Intent(this, DailyDetailActivity::class.java)
+        val it = Intent(this, DailyDetailActivity::class.java)
         it.putExtra("it_detailID", thisStoryID)
         it.putExtra("it_detailID_array", allIDs)
         startActivity(it)
     }
 
-
 }
-
