@@ -44,7 +44,7 @@ class DailyListActivity : BaseActivity(), IDailyListView {
 
     }
 
-    override fun jumpToDetilsPage(thisStoryID: Long, allIDs: Array<Long>) {
+    override fun jumpToDetilsPage(thisStoryID: Long, allIDs: LongArray) {
         val it = Intent(this, DailyDetailActivity::class.java)
         it.putExtra("it_detailID", thisStoryID)
         it.putExtra("it_detailID_array", allIDs)

@@ -42,7 +42,7 @@ class DailyListPresenter(val view: IDailyListView) {
         val viewModel = viewModels[position]
         if(viewModel.getData() is Story){
             val story = viewModel.getData() as Story
-            val idArray : Array<Long> = ids.toTypedArray()
+            val idArray : LongArray = ids.toLongArray()
             view.jumpToDetilsPage(story.id, idArray)
         }
 
