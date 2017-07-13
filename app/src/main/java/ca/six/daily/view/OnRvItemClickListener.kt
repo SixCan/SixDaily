@@ -47,6 +47,6 @@ abstract class OnRvItemClickListener(private val rv: RecyclerView) : RecyclerVie
     }
 
     // ========================= abstract methods =================================
-    abstract fun onItemClick(vh: RecyclerView.ViewHolder)
+    abstract fun onItemClick(holder: RecyclerView.ViewHolder)
 
 }

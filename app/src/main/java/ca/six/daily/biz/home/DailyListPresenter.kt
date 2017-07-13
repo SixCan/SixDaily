@@ -7,12 +7,16 @@ import ca.six.daily.data.DailyListResponse
 import ca.six.daily.view.ViewType
 
 class DailyListPresenter(val view: IDailyListView) {
+    lateinit var listData : DailyListResponse
 
     fun requestData() {
         val data: MutableList<ViewType> = ArrayList()
 
         HttpEngine.request("news/latest")
-                .map { DailyListResponse(it) }
+                .map {
+                    listData = DailyListResponse(it)
+                    listData
+                }
                 .map {
                     data.add(ListTitleViewModel(it.date))
                     it.stories.forEach { story ->
@@ -21,4 +25,10 @@ class DailyListPresenter(val view: IDailyListView) {
                 }
                 .subscribe { view.refresh(data) }
     }
+
+    fun jumpToDetail(position: Int) {
+        val story = listData.stories[position]
+        view.jumpToDetilsPage(hashMapOf("it_detailID" to story.id.toString()))
+    }
 }
+

@@ -2,14 +2,12 @@ package ca.six.daily.biz.home
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import ca.six.daily.R
 import ca.six.daily.biz.detail.DailyDetailActivity
 import ca.six.daily.core.BaseActivity
 import ca.six.daily.utils.jump
-import ca.six.daily.view.OneAdapter
-import ca.six.daily.view.RvViewHolder
-import ca.six.daily.view.ViewType
-import ca.six.daily.view.WhiteSpaceDivider
+import ca.six.daily.view.*
 import kotlinx.android.synthetic.main.activity_daily_list.*
 
 // 第一屏内容(banner与list) ： https://news-at.zhihu.com/api/4/news/latest
@@ -33,15 +31,23 @@ class DailyListActivity : BaseActivity(), IDailyListView {
 
         val presenter = DailyListPresenter(this)
         presenter.requestData()
+
+        rvDailyList.addOnItemTouchListener(object : OnRvItemClickListener(rvDailyList){
+            override fun onItemClick(holder: RecyclerView.ViewHolder) {
+                presenter.jumpToDetail(holder.adapterPosition)
+            }
+        })
     }
+
 
     override fun refresh(data: MutableList<ViewType>) {
         rvDailyList.adapter = DailyListAdapter(data)
+
     }
 
     override fun jumpToDetilsPage(args: Map<String, String>) {
         jump(DailyDetailActivity::class.java, args)
     }
 
-
 }
+

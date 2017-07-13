@@ -27,13 +27,12 @@ object HttpEngine {
     }
 
     fun request(end: String): Observable<String> {
-        val observable = Observable.create<String> { emitter ->
-            val responseString = requestString(http, end)
-            println("szw resp str = $responseString")
-            emitter.onNext(responseString)
-        }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+            val observable = Observable.create<String> { emitter ->
+                val responseString = requestString(http, end)
+                emitter.onNext(responseString)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
         return observable
     }
 }
