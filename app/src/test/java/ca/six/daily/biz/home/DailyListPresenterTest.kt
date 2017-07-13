@@ -45,18 +45,17 @@ class DailyListPresenterTest {
 
     @Test
     fun testRequestData_gotSuccessfulData_thenRefreshView() {
-        HttpEngine.isMock = true
-        HttpEngine.mockJson = "{\"date\":\"20170710\",\"stories\":[{\"images\":[\"https://pic3.zhimg.com/v2-604f4f03fc22ce1bf59788e20aefd646.jpg\"],\"type\":0,\"id\":9517717,\"ga_prefix\":\"071022\",\"title\":\"小事 · 临行密密缝\"}]}"
+        prepareOneStoryStubData()
 
         presenter.requestData()
 
         verify(view).refresh(anyList())
+
     }
 
     @Test
     fun testJumpToDetail_gotSuccessuflData_thenClickFirst(){
-        HttpEngine.isMock = true
-        HttpEngine.mockJson = "{\"date\":\"20170710\",\"stories\":[{\"images\":[\"https://pic3.zhimg.com/v2-604f4f03fc22ce1bf59788e20aefd646.jpg\"],\"type\":0,\"id\":9517717,\"ga_prefix\":\"071022\",\"title\":\"小事 · 临行密密缝\"}]}"
+        prepareOneStoryStubData()
 
         presenter.requestData()
         presenter.jumpToDetail(0)
@@ -64,6 +63,22 @@ class DailyListPresenterTest {
         val args = hashMapOf("it_detailID" to "9517717")
         verify(view).jumpToDetilsPage(args)
     }
+
+    @Test(expected = IndexOutOfBoundsException::class)
+    fun testJumpToDetail_gotSuccessuflData_thenClickWrongPosition(){
+        prepareOneStoryStubData()
+
+        presenter.requestData()
+        presenter.jumpToDetail(10)
+
+    }
+
+    private fun prepareOneStoryStubData(){
+        HttpEngine.isMock = true
+        HttpEngine.mockJson = "{\"date\":\"20170710\",\"stories\":[{\"images\":[\"https://pic3.zhimg.com/v2-604f4f03fc22ce1bf59788e20aefd646.jpg\"],\"type\":0,\"id\":9517717,\"ga_prefix\":\"071022\",\"title\":\"小事 · 临行密密缝\"}]}"
+    }
+
+
 
 
     @After
