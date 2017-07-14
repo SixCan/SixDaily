@@ -5,6 +5,7 @@ import ca.six.daily.biz.home.viewmodel.ListTitleViewModel
 import ca.six.daily.core.network.HttpEngine
 import ca.six.daily.data.DailyListResponse
 import ca.six.daily.data.Story
+import ca.six.daily.utils.writeToCacheFile
 import ca.six.daily.view.ViewType
 
 class DailyListPresenter(val view: IDailyListView) {
@@ -16,6 +17,11 @@ class DailyListPresenter(val view: IDailyListView) {
         viewModels = ArrayList()
 
         HttpEngine.request("news/latest")
+                .map{ jsonString ->
+                    writeToCacheFile(jsonString, "news_latest.json")
+                    jsonString
+                }
+
                 .map { jsonString ->
                     listData = DailyListResponse(jsonString)
                     listData
