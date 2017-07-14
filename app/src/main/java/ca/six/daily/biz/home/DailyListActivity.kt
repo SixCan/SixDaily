@@ -35,8 +35,12 @@ class DailyListActivity : BaseActivity(), IDailyListView {
         rvDailyList.addOnItemTouchListener(object : OnRvItemClickListener(rvDailyList){
             override fun onItemClick(holder: RecyclerView.ViewHolder) {
                 presenter.jumpToDetail(holder.adapterPosition)
+
+                val tv = holder.itemView.findViewById(R.id.tvListItemTitle) as TextView
+                tv.setTextColor(0xff999999.toInt())
             }
         })
+
     }
 
     override fun refresh(data: MutableList<ViewType<out Any>>) {
