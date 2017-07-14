@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.TextView
 import ca.six.daily.R
 import ca.six.daily.biz.detail.DailyDetailActivity
 import ca.six.daily.core.BaseActivity
@@ -35,8 +36,12 @@ class DailyListActivity : BaseActivity(), IDailyListView {
         rvDailyList.addOnItemTouchListener(object : OnRvItemClickListener(rvDailyList){
             override fun onItemClick(holder: RecyclerView.ViewHolder) {
                 presenter.jumpToDetail(holder.adapterPosition)
+
+                val tv = holder.itemView.findViewById(R.id.tvListItemTitle) as TextView
+                tv.setTextColor(0xff999999.toInt())
             }
         })
+
     }
 
     override fun refresh(data: MutableList<ViewType<out Any>>) {

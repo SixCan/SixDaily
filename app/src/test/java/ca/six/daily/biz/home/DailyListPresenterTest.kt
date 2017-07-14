@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit
 import io.reactivex.android.plugins.RxAndroidPlugins
 import org.junit.After
 import io.reactivex.plugins.RxJavaPlugins
+
+import org.junit.Assert.*
 import org.mockito.Mockito.*
 
 class DailyListPresenterTest {
@@ -42,7 +44,6 @@ class DailyListPresenterTest {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { scheduler -> immediate }
     }
 
-
     @Test
     fun testRequestData_gotSuccessfulData_thenRefreshView() {
         prepareOneStoryStubData()
@@ -50,6 +51,8 @@ class DailyListPresenterTest {
         presenter.requestData()
 
         verify(view).refresh(anyList())
+        assertEquals(1, presenter.ids.size)
+        assertEquals(9517717, presenter.ids[0])
 
     }
 
@@ -58,13 +61,11 @@ class DailyListPresenterTest {
         prepareOneStoryStubData()
 
         presenter.requestData()
-        presenter.jumpToDetail(0)
+        presenter.jumpToDetail(1) // the first item (index: 0) is a title
 
-//        val ids = longArrayOf(9517717) //=>返回的是一个LongArray对象，不是Array<Long>。我晕
-        val ids = arrayOf(9517717L)
+        val ids = longArrayOf(9517717L)
         verify(view).jumpToDetilsPage(9517717, ids)
     }
-
 
     @Test(expected = IndexOutOfBoundsException::class)
     fun testJumpToDetail_gotSuccessuflData_thenClickWrongPosition(){
