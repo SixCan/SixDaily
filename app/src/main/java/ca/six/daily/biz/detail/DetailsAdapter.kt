@@ -20,12 +20,10 @@ class DetailsAdapter(val ctx: Context, val ids: List<*>, val selectedId: Long) :
     private var wvContent:WebView? = null
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        println("init: $position")
         val itemView: View = inflater.inflate(R.layout.item_daily_details, container, false)
         ivBanner = itemView.findViewById(R.id.ivBanner) as ImageView
         wvContent = itemView.findViewById(R.id.wvContent) as WebView
-        val pos = ids.indexOf(selectedId)
-        container.addView(itemView, position)
+        container.addView(itemView)
         return itemView
     }
 
@@ -38,7 +36,6 @@ class DetailsAdapter(val ctx: Context, val ids: List<*>, val selectedId: Long) :
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        println("destroyItem: $position")
-        container.removeViewAt(position)
+        container.removeView(`object` as View?)
     }
 }
