@@ -26,7 +26,6 @@ class DetailsAdapter(val ctx: Context, val ids: List<*>, val selectedId: Long) :
         wvContent = itemView.findViewById(R.id.wvContent) as WebView
         val pos = ids.indexOf(selectedId)
         container.addView(itemView, position)
-        DailyDetailPresenter(ctx as IDailyDetailView).getDetails(selectedId)
         return itemView
     }
 
