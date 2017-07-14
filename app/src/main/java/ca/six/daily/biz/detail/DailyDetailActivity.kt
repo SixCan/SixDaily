@@ -11,7 +11,7 @@ class DailyDetailActivity : BaseActivity(), IDailyDetailView {
     var selectedId: Long = 0
     var ids : List<Long> = ArrayList<Long>()
     val DEFAULT_ID = 3892357
-    var adapter: DetailsAdapter? = null
+    var adapter: DailyDetailsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class DailyDetailActivity : BaseActivity(), IDailyDetailView {
 
 //        wvContent.setInitialScale(230)
 //        wvContent.settings.textZoom = 150
-        adapter = DetailsAdapter(this, ids, selectedId)
+        adapter = DailyDetailsAdapter(this, ids, selectedId)
         vpList.adapter = adapter
     }
 

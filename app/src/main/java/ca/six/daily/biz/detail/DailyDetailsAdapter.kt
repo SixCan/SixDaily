@@ -14,7 +14,7 @@ import ca.six.daily.R
  * @date 2017-07-13
  * Copyright 2017 Six. All rights reserved.
  */
-class DetailsAdapter(val ctx: Context, val ids: List<*>, val selectedId: Long) : PagerAdapter() {
+class DailyDetailsAdapter(val ctx: Context, val ids: List<*>, val selectedId: Long) : PagerAdapter() {
     private val inflater = LayoutInflater.from(ctx) as LayoutInflater
     private var ivBanner:ImageView? = null
     private var wvContent:WebView? = null
