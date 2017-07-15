@@ -1,6 +1,7 @@
 package ca.six.daily.utils
 
 import ca.six.daily.core.BaseApp
+import io.reactivex.Observable
 import java.io.File
 
 fun writeToCacheFile(content : String, fileName : String) {

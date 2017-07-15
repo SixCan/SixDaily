@@ -19,7 +19,15 @@ class DailyListPresenter(val view: IDailyListView) {
         viewModels = ArrayList()
 
         val observableCache = readCacheFileRx("news_latest.json")
+                .map{
+                    println("szw get from cache")
+                    it
+                }
         val observableHttp = HttpEngine.request("news/latest")
+                .map{
+                    print("szw get from http")
+                    it
+                }
 
         Observable.concat(observableCache, observableHttp)
                 .map { jsonString ->  //TODO this map move to observableHttp
