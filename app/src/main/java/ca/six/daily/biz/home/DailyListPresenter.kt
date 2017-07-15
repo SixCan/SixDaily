@@ -5,8 +5,10 @@ import ca.six.daily.biz.home.viewmodel.ListTitleViewModel
 import ca.six.daily.core.network.HttpEngine
 import ca.six.daily.data.DailyListResponse
 import ca.six.daily.data.Story
+import ca.six.daily.utils.readCacheFileRx
 import ca.six.daily.utils.writeToCacheFile
 import ca.six.daily.view.ViewType
+import io.reactivex.Observable
 
 class DailyListPresenter(val view: IDailyListView) {
     lateinit var listData : DailyListResponse
@@ -16,12 +18,14 @@ class DailyListPresenter(val view: IDailyListView) {
     fun requestData() {
         viewModels = ArrayList()
 
-        HttpEngine.request("news/latest")
-                .map{ jsonString ->
+        val observableCache = readCacheFileRx("news_latest.json")
+        val observableHttp = HttpEngine.request("news/latest")
+
+        Observable.concat(observableCache, observableHttp)
+                .map { jsonString ->  //TODO this map move to observableHttp
                     writeToCacheFile(jsonString, "news_latest.json")
                     jsonString
                 }
-
                 .map { jsonString ->
                     listData = DailyListResponse(jsonString)
                     listData

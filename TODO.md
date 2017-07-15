@@ -16,6 +16,9 @@ http://www.jianshu.com/p/cf1a6037b80e
 7. 引入LeakCanary， 查看ListPresenter中的rxjava是否有内存泄露
 8. list页load more
 
+[bug]
+bug: 点击变灰。在复用viewHolder时会混乱
+
 [backlog]
 1. multiple module: daily, hot, category, ...,  common
 2. biz: copyright, daily, hot, category, about us,
