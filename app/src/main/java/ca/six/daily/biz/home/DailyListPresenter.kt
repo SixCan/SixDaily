@@ -21,7 +21,6 @@ class DailyListPresenter(val view: IDailyListView) {
         val observableCache = readCacheFileRx("news_latest.json")
         val observableHttp = HttpEngine.request("news/latest")
                 .map {jsonString ->
-                    println("szw get from http")
                     writeToCacheFile(jsonString, "news_latest.json")
                     jsonString
                 }
@@ -29,10 +28,8 @@ class DailyListPresenter(val view: IDailyListView) {
         Observable.concat(observableCache, observableHttp)
                 .map { jsonString ->
                     listData = DailyListResponse(jsonString)
-                    println("szw data.size = ${listData.stories.size}")
                     listData
                 }
-
                 .map { resp ->
                     viewModels.add(ListTitleViewModel(resp.date))
                     resp.stories.forEach { story ->

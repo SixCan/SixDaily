@@ -26,11 +26,9 @@ fun readCacheFile(fileName : String): String {
 fun readCacheFileRx(fileName : String) : Observable<String> {
     return Observable.create<String> {
         if(isCacheFileExist(fileName)){
-            println("szw get data from cache")
             val content = readCacheFile(fileName)
             it.onNext(content)
         } else {
-            println("szw didn't get data from cache")
             it.onComplete()
         }
     }
