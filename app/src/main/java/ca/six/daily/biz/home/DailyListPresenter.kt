@@ -14,14 +14,17 @@ class DailyListPresenter(val view: IDailyListView) {
     lateinit var listData : DailyListResponse
     lateinit var viewModels : MutableList<ViewType<out Any>>
     var ids : MutableList<Long> = ArrayList()
+    val fileName = "news_latest.json"
 
     fun requestData() {
         viewModels = ArrayList()
 
-        val observableCache = readCacheFileRx("news_latest.json")
+        val observableCache = readCacheFileRx(fileName)
+                .map{ println("szw get from cache"); it}
         val observableHttp = HttpEngine.request("news/latest")
                 .map {jsonString ->
-                    writeToCacheFile(jsonString, "news_latest.json")
+                    println("szw get from http. And save as a cachced json")
+                    writeToCacheFile(jsonString, fileName)
                     jsonString
                 }
 
