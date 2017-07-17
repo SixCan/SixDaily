@@ -5,8 +5,7 @@ import ca.six.daily.biz.home.viewmodel.ListTitleViewModel
 import ca.six.daily.core.network.HttpEngine
 import ca.six.daily.data.DailyListResponse
 import ca.six.daily.data.Story
-import ca.six.daily.utils.readCacheFileRx
-import ca.six.daily.utils.writeToCacheFile
+import ca.six.daily.utils.*
 import ca.six.daily.view.ViewType
 import io.reactivex.Observable
 
@@ -19,11 +18,12 @@ class DailyListPresenter(val view: IDailyListView) {
     fun requestData() {
         viewModels = ArrayList()
 
-        val observableCache = readCacheFileRx(fileName)
-                .map{ println("szw get from cache"); it}
+        // readCachedLatestNews() will have the logic if the cached date is out-of-date
+        val observableCache = readCachedLatestNews()
+                .map{it}
         val observableHttp = HttpEngine.request("news/latest")
                 .map {jsonString ->
-                    println("szw get from http. And save as a cachced json")
+
                     writeToCacheFile(jsonString, fileName)
                     jsonString
                 }
@@ -32,6 +32,11 @@ class DailyListPresenter(val view: IDailyListView) {
                 .map { jsonString ->
                     listData = DailyListResponse(jsonString)
                     listData
+                }
+                .map{ resp ->
+                    // save the date to identify the cache file
+                    save2Sp("latest_date", resp.date)
+                    resp
                 }
                 .map { resp ->
                     viewModels.add(ListTitleViewModel(resp.date))

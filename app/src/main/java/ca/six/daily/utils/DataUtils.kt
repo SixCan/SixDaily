@@ -1,8 +1,12 @@
 package ca.six.daily.utils
 
+import android.content.Context
 import ca.six.daily.core.BaseApp
+import ca.six.daily.data.DailyListResponse
 import io.reactivex.Observable
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun writeToCacheFile(content : String, fileName : String) {
     val dir = BaseApp.app.cacheDir //=> /data/user/0/ca.six.daily/cache
@@ -34,3 +38,40 @@ fun readCacheFileRx(fileName : String) : Observable<String> {
     }
 }
 
+fun readCachedLatestNews() : Observable<String>{
+    val fileName = "news_latest.json"
+    return Observable.create<String> {
+        if(isCacheFileExist(fileName)) {
+            val content = readCacheFile(fileName)
+            val resp = DailyListResponse(content)
+
+            val cachedDateValue = resp.date
+
+            val dateFormatter = SimpleDateFormat("yyyyMMdd", Locale.CHINA)
+            dateFormatter.timeZone = TimeZone.getTimeZone("GMT+8:00")
+            val nowTimeCn = dateFormatter.format(Date())
+
+            println("szw cached date = $cachedDateValue")
+            println("szw nowTimeCn = $nowTimeCn")
+            if(nowTimeCn.toInt() != cachedDateValue.toInt()){
+                it.onComplete() // time is not matched. Need to fetch data from server
+            } else {
+                it.onNext(content)
+            }
+        } else {
+            it.onComplete()
+        }
+    }
+}
+
+fun save2Sp(key : String, value : String){
+    val sp = BaseApp.app.getSharedPreferences("SixDaily", Context.MODE_PRIVATE)
+    val editor = sp.edit()
+    editor.putString(key, value)
+    editor.apply()
+}
+
+fun getSpValue(key : String) : String {
+    val sp = BaseApp.app.getSharedPreferences("SixDaily", Context.MODE_PRIVATE)
+    return sp.getString(key, "")
+}

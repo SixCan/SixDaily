@@ -8,7 +8,7 @@
 
     <TextView android:id="@+id/tvListItemTitle" android:layout_width="match_parent" android:layout_height="match_parent"
         android:textColor="#000" android:textSize="18dp"
-        android:gravity="center_vertical" android:paddingLeft="20dp" android:layout_marginRight="20dp"
+        android:gravity="center_vertical" android:layout_marginRight="20dp"
         tools:text="Sep 23th, 2017"/>
 
 </LinearLayout>
