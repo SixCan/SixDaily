@@ -18,9 +18,14 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long) 
         RecyclerView.Adapter<RvViewHolder>(), IDailyDetailView {
     private var data = ArrayList<HashMap<String, String>>()
     private val presenter: DailyDetailPresenter = DailyDetailPresenter(this)
+    private var currentPos: Int = 0
 
     init {
         presenter.getDetails(selectedId)
+        ids.forEach {
+            val item = HashMap<String, String>()
+            data.add(item)
+        }
     }
 
     override fun onBindViewHolder(holder: RvViewHolder, position: Int) {
@@ -45,7 +50,7 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long) 
     }
 
     override fun updateDetails(details: HashMap<String, String>) {
-        data.add(details)
+        data[currentPos] = details
         notifyDataSetChanged()
     }
 
@@ -60,5 +65,7 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long) 
         if(!isCached) {
             presenter.getDetails(selectedId.toLong())
         }
+
+        currentPos = pos
     }
 }
