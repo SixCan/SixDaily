@@ -11,12 +11,14 @@ class DailyDetailPresenter(val view: IDailyDetailView) {
 
     fun getDetails(id: Long) {
         val details = hashMapOf<String, String>()
+
         HttpEngine.request("news/" + id)
                 .map { DailyDetailResponse(it) }
                 .map {
                     details.put("title", it.title)
                     details.put("body", it.body)
                     details.put("image", it.image)
+                    details.put("id", it.id.toString())
                     details
                 }
                 .subscribe {

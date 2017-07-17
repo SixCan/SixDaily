@@ -10,11 +10,13 @@ class DailyDetailResponse(jsonStr: String) {
     var body: String
     var image: String
     var title: String
+    var id: Long
 
     init {
         val json = JSONObject(jsonStr)
         body = json.optString("body")
         image = json.optString("image")
         title = json.optString("title")
+        id = json.optLong("id", 0)
     }
 }

@@ -6,5 +6,4 @@ package ca.six.daily.biz.detail
  */
 interface IDailyDetailView {
     fun updateDetails(details: HashMap<String, String>)
-    fun scrollToPosition(pos: Int)
 }
