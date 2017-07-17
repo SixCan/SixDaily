@@ -38,6 +38,12 @@ fun readCacheFileRx(fileName: String): Observable<String> {
     }
 }
 
+/*
+若cache的20170716.
+手机上当前时间若是20170716， 换成cn时间：
+	若是20170717，要拉新的http数据
+	若仍是201716，就用cache
+ */
 fun readCachedLatestNews(): Observable<String> {
     val fileName = "news_latest.json"
     return Observable.create<String> {
