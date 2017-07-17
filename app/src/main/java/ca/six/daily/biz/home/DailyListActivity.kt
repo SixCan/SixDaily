@@ -33,7 +33,7 @@ class DailyListActivity : BaseActivity(), IDailyListView {
         val presenter = DailyListPresenter(this)
         presenter.requestData()
 
-        rvDailyList.addOnItemTouchListener(object : OnRvItemClickListener(rvDailyList){
+        rvDailyList.addOnItemTouchListener(object : OnRvItemClickListener(rvDailyList) {
             override fun onItemClick(holder: RecyclerView.ViewHolder) {
                 presenter.jumpToDetail(holder.adapterPosition)
 

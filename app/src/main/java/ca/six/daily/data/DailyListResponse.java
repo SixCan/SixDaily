@@ -1,9 +1,6 @@
 package ca.six.daily.data;
 
-import android.text.TextUtils;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

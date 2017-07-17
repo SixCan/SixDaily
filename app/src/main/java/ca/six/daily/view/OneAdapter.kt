@@ -1,7 +1,7 @@
 package ca.six.daily.view
 
-import android.view.ViewGroup
 import android.support.v7.widget.RecyclerView
+import android.view.ViewGroup
 
 abstract class OneAdapter<T>(val layoutResId: Int) : RecyclerView.Adapter<RvViewHolder>() {
     var data: List<T> = ArrayList()

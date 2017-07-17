@@ -21,7 +21,7 @@ class ListItemViewModel(val story: Story) : ViewType<Story> {
                 .into(holder.getView<ImageView>(R.id.ivListItemTitle))
     }
 
-    override fun getData() : Story{
+    override fun getData(): Story {
         return story
     }
 

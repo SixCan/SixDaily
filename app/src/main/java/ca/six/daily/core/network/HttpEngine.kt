@@ -3,12 +3,12 @@ package ca.six.daily.core.network
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.Request
 import okhttp3.OkHttpClient
+import okhttp3.Request
 
 object HttpEngine {
     val PREFIX = " https://news-at.zhihu.com/api/4/"
-    val http : OkHttpClient by lazy {
+    val http: OkHttpClient by lazy {
         OkHttpClient.Builder()
                 .addInterceptor(MockResponseInterceptor())
                 .build()
@@ -27,12 +27,12 @@ object HttpEngine {
     }
 
     fun request(end: String): Observable<String> {
-            val observable = Observable.create<String> { emitter ->
-                val responseString = requestString(http, end)
-                emitter.onNext(responseString)
-            }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        val observable = Observable.create<String> { emitter ->
+            val responseString = requestString(http, end)
+            emitter.onNext(responseString)
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
         return observable
     }
 }

@@ -5,14 +5,16 @@ import ca.six.daily.biz.home.viewmodel.ListTitleViewModel
 import ca.six.daily.core.network.HttpEngine
 import ca.six.daily.data.DailyListResponse
 import ca.six.daily.data.Story
-import ca.six.daily.utils.*
+import ca.six.daily.utils.readCachedLatestNews
+import ca.six.daily.utils.save2Sp
+import ca.six.daily.utils.writeToCacheFile
 import ca.six.daily.view.ViewType
 import io.reactivex.Observable
 
 class DailyListPresenter(val view: IDailyListView) {
-    lateinit var listData : DailyListResponse
-    lateinit var viewModels : MutableList<ViewType<out Any>>
-    var ids : MutableList<Long> = ArrayList()
+    lateinit var listData: DailyListResponse
+    lateinit var viewModels: MutableList<ViewType<out Any>>
+    var ids: MutableList<Long> = ArrayList()
     val fileName = "news_latest.json"
 
     fun requestData() {
@@ -20,9 +22,9 @@ class DailyListPresenter(val view: IDailyListView) {
 
         // readCachedLatestNews() will have the logic if the cached date is out-of-date
         val observableCache = readCachedLatestNews()
-                .map{it}
+                .map { it }
         val observableHttp = HttpEngine.request("news/latest")
-                .map {jsonString ->
+                .map { jsonString ->
 
                     writeToCacheFile(jsonString, fileName)
                     jsonString
@@ -33,7 +35,7 @@ class DailyListPresenter(val view: IDailyListView) {
                     listData = DailyListResponse(jsonString)
                     listData
                 }
-                .map{ resp ->
+                .map { resp ->
                     // save the date to identify the cache file
                     save2Sp("latest_date", resp.date)
                     resp
@@ -48,7 +50,7 @@ class DailyListPresenter(val view: IDailyListView) {
                 .map { resp ->
                     // refresh the id list after each get a new list data
                     ids.clear()
-                    resp.stories.forEach{ story ->
+                    resp.stories.forEach { story ->
                         ids.add(story.id)
                     }
                 }
@@ -58,9 +60,9 @@ class DailyListPresenter(val view: IDailyListView) {
 
     fun jumpToDetail(position: Int) {
         val viewModel = viewModels[position]
-        if(viewModel.getData() is Story){
+        if (viewModel.getData() is Story) {
             val story = viewModel.getData() as Story
-            val idArray : LongArray = ids.toLongArray()
+            val idArray: LongArray = ids.toLongArray()
             view.jumpToDetilsPage(story.id, idArray)
         }
 

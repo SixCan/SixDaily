@@ -8,28 +8,28 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun writeToCacheFile(content : String, fileName : String) {
+fun writeToCacheFile(content: String, fileName: String) {
     val dir = BaseApp.app.cacheDir //=> /data/user/0/ca.six.daily/cache
     val file = File(dir, fileName) //=> /data/user/0/ca.six.daily/cache/{fileName}
     file.writeText(content)
 }
 
-fun isCacheFileExist(fileName : String): Boolean {
+fun isCacheFileExist(fileName: String): Boolean {
     val dir = BaseApp.app.cacheDir //=> /data/user/0/ca.six.daily/cache
     val file = File(dir, fileName) //=> /data/user/0/ca.six.daily/cache/{fileName}
     return file.exists()
 }
 
 // TODO struggling. Should I handle the FileNotFoundException here?
-fun readCacheFile(fileName : String): String {
+fun readCacheFile(fileName: String): String {
     val dir = BaseApp.app.cacheDir //=> /data/user/0/ca.six.daily/cache
     val file = File(dir, fileName) //=> /data/user/0/ca.six.daily/cache/{fileName}
     return file.readText()
 }
 
-fun readCacheFileRx(fileName : String) : Observable<String> {
+fun readCacheFileRx(fileName: String): Observable<String> {
     return Observable.create<String> {
-        if(isCacheFileExist(fileName)){
+        if (isCacheFileExist(fileName)) {
             val content = readCacheFile(fileName)
             it.onNext(content)
         } else {
@@ -38,10 +38,10 @@ fun readCacheFileRx(fileName : String) : Observable<String> {
     }
 }
 
-fun readCachedLatestNews() : Observable<String>{
+fun readCachedLatestNews(): Observable<String> {
     val fileName = "news_latest.json"
     return Observable.create<String> {
-        if(isCacheFileExist(fileName)) {
+        if (isCacheFileExist(fileName)) {
             val content = readCacheFile(fileName)
             val resp = DailyListResponse(content)
 
@@ -53,7 +53,7 @@ fun readCachedLatestNews() : Observable<String>{
 
             println("szw cached date = $cachedDateValue")
             println("szw nowTimeCn = $nowTimeCn")
-            if(nowTimeCn.toInt() != cachedDateValue.toInt()){
+            if (nowTimeCn.toInt() != cachedDateValue.toInt()) {
                 it.onComplete() // time is not matched. Need to fetch data from server
             } else {
                 it.onNext(content)
@@ -64,14 +64,14 @@ fun readCachedLatestNews() : Observable<String>{
     }
 }
 
-fun save2Sp(key : String, value : String){
+fun save2Sp(key: String, value: String) {
     val sp = BaseApp.app.getSharedPreferences("SixDaily", Context.MODE_PRIVATE)
     val editor = sp.edit()
     editor.putString(key, value)
     editor.apply()
 }
 
-fun getSpValue(key : String) : String {
+fun getSpValue(key: String): String {
     val sp = BaseApp.app.getSharedPreferences("SixDaily", Context.MODE_PRIVATE)
     return sp.getString(key, "")
 }

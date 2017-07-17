@@ -9,7 +9,7 @@ import java.util.*
 // 详情页(id来自list屏)： https://news-at.zhihu.com/api/4/news/3892357   (应该是用WebView加载)
 class DailyDetailActivity : BaseActivity(), IDailyDetailView {
     var selectedId: Long = 0
-    var ids : List<Long> = ArrayList<Long>()
+    var ids: List<Long> = ArrayList<Long>()
     val DEFAULT_ID = 3892357
     var adapter: DailyDetailsAdapter? = null
 

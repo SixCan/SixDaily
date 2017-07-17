@@ -16,8 +16,8 @@ import ca.six.daily.R
  */
 class DailyDetailsAdapter(val ctx: Context, val ids: List<*>, val selectedId: Long) : PagerAdapter() {
     private val inflater = LayoutInflater.from(ctx) as LayoutInflater
-    private var ivBanner:ImageView? = null
-    private var wvContent:WebView? = null
+    private var ivBanner: ImageView? = null
+    private var wvContent: WebView? = null
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val itemView: View = inflater.inflate(R.layout.item_daily_details, container, false)
