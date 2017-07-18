@@ -6,8 +6,10 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
+
 object HttpEngine {
     val PREFIX = " https://news-at.zhihu.com/api/4/"
+    val ERROR = "Error"
     val http: OkHttpClient by lazy {
         OkHttpClient.Builder()
                 .addInterceptor(MockResponseInterceptor())
@@ -19,20 +21,29 @@ object HttpEngine {
     var mockJson = ""
 
     fun requestString(http: OkHttpClient, end: String): String {
-        val req = Request.Builder()
-                .url(PREFIX + end)
-                .build()
-        val resp = http.newCall(req).execute()
-        return resp.body()?.string() ?: "" // 三目运算符
+        try {
+            val req = Request.Builder()
+                    .url(PREFIX + end)
+                    .build()
+            val resp = http.newCall(req).execute()
+            return resp.body()?.string() ?: "" // 三目运算符
+        } catch (exception : Exception) {
+            return ERROR
+        }
     }
 
     fun request(end: String): Observable<String> {
         val observable = Observable.create<String> { emitter ->
             val responseString = requestString(http, end)
-            emitter.onNext(responseString)
+            if(ERROR == responseString) {
+                emitter.onComplete()
+            } else {
+                emitter.onNext(responseString)
+            }
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
         return observable
     }
 }
+
