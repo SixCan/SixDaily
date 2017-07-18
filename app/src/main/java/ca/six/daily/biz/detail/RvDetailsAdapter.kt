@@ -36,6 +36,7 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long) 
             val item = data[position]
             Picasso.with(ctx)
                     .load(item["image"])
+                    .placeholder(R.drawable.loading_placeholder)
                     .into(banner)
             content.loadData(item["body"], "text/html", "utf-8")
         }
