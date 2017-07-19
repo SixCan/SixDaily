@@ -15,6 +15,7 @@ http://www.jianshu.com/p/cf1a6037b80e
 8. 可能要接入anko-sqlite， 来存储数据
 7. 引入LeakCanary， 查看ListPresenter中的rxjava是否有内存泄露
 8. list页load more
+9. cache news details
 
 [bug]
 bug: 点击变灰。在复用viewHolder时会混乱
@@ -23,7 +24,12 @@ bug: 点击变灰。在复用viewHolder时会混乱
 1. multiple module: daily, hot, category, ...,  common
 2. biz: copyright, daily, hot, category, about us,
 3. detail页滑到底后， 要自动能请求，不要再回list页，多不好的体验
+4. WebView load css files which fetching from remote server
 5. refactor the multiple type adapter for rv
+6. forbid vertical movement when users switch topics on detail page
+7. unit tests
+8. integrate tests
 
 [finished]
 3. 首页的view holder， 过渡一下在加载的等待时间
+2. display correct details when changing topics on detail page.
