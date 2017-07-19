@@ -8,6 +8,7 @@ import android.widget.TextView
 import ca.six.daily.R
 import ca.six.daily.biz.detail.DailyDetailActivity
 import ca.six.daily.core.BaseActivity
+import ca.six.daily.utils.showToast
 import ca.six.daily.view.*
 import kotlinx.android.synthetic.main.activity_daily_list.*
 
@@ -46,7 +47,10 @@ class DailyListActivity : BaseActivity(), IDailyListView {
 
     override fun refresh(data: MutableList<ViewType<out Any>>) {
         rvDailyList.adapter = DailyListAdapter(data)
+    }
 
+    override fun onError(errorText: String) {
+        showToast(errorText)
     }
 
     override fun jumpToDetilsPage(thisStoryID: Long, allIDs: LongArray) {

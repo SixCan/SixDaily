@@ -54,7 +54,9 @@ class DailyListPresenter(val view: IDailyListView) {
                         ids.add(story.id)
                     }
                 }
-                .subscribe { view.refresh(viewModels) }
+                .subscribe( { view.refresh(viewModels) },
+                        { println("szw onError $it")},
+                        { view.onError("Network or server is not available. Please try it later.")} )
 
     }
 

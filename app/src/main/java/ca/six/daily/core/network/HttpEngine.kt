@@ -34,16 +34,17 @@ object HttpEngine {
 
     fun request(end: String): Observable<String> {
         val observable = Observable.create<String> { emitter ->
-            val responseString = requestString(http, end)
-            if(ERROR == responseString) {
-                emitter.onComplete()
-            } else {
-                emitter.onNext(responseString)
-            }
-        }
+                    val responseString = requestString(http, end)
+                    if(ERROR == responseString) {
+                        emitter.onComplete()
+                    } else {
+                        emitter.onNext(responseString)
+                    }
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
         return observable
     }
+
 }
 
