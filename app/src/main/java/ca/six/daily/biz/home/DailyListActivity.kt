@@ -13,7 +13,11 @@ import ca.six.daily.view.*
 import kotlinx.android.synthetic.main.activity_daily_list.*
 
 // 第一屏内容(banner与list) ： https://news-at.zhihu.com/api/4/news/latest
+
 class DailyListActivity : BaseActivity(), IDailyListView {
+    val presenter by lazy {
+        DailyListPresenter(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +35,12 @@ class DailyListActivity : BaseActivity(), IDailyListView {
         tempAdapter.data = holderLists
         rvDailyList.adapter = tempAdapter
 
-        val presenter = DailyListPresenter(this)
         presenter.requestData()
+
+    }
+
+    override fun refresh(data: MutableList<ViewType<out Any>>) {
+        rvDailyList.adapter = DailyListAdapter(data)
 
         rvDailyList.addOnItemTouchListener(object : OnRvItemClickListener(rvDailyList) {
             override fun onItemClick(holder: RecyclerView.ViewHolder) {
@@ -42,11 +50,6 @@ class DailyListActivity : BaseActivity(), IDailyListView {
                 tv.setTextColor(0xff999999.toInt())
             }
         })
-
-    }
-
-    override fun refresh(data: MutableList<ViewType<out Any>>) {
-        rvDailyList.adapter = DailyListAdapter(data)
     }
 
     override fun onError(errorText: String) {
@@ -61,3 +64,4 @@ class DailyListActivity : BaseActivity(), IDailyListView {
     }
 
 }
+
