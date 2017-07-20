@@ -70,6 +70,17 @@ fun readCachedLatestNews(): Observable<String> {
     }
 }
 
+fun readCachedDetails(id: Long): Observable<String> {
+    val fileName = "news_$id.json"
+    return Observable.create {
+        if(isCacheFileExist(fileName)) {
+            it.onNext(readCacheFile(fileName))
+        } else {
+            it.onComplete()
+        }
+    }
+}
+
 fun save2Sp(key: String, value: String) {
     val sp = BaseApp.app.getSharedPreferences("SixDaily", Context.MODE_PRIVATE)
     val editor = sp.edit()
