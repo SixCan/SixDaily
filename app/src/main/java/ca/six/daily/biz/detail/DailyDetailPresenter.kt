@@ -19,6 +19,7 @@ class DailyDetailPresenter(val view: IDailyDetailView) {
                     details.put("body", it.body)
                     details.put("image", it.image)
                     details.put("id", it.id.toString())
+                    details.put("cssVer", it.cssVer)
                     details
                 }
                 .subscribe {

@@ -42,14 +42,16 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long, 
         val size = data.size
         val banner = holder.getView<ImageView>(R.id.ivBanner)
         val content = holder.getView<WebView>(R.id.wvContent)
+        content.settings.javaScriptEnabled = true
         if (size > 0 && position < size) {
             val item = data[position]
             Picasso.with(ctx)
                     .load(item["image"])
                     .placeholder(R.drawable.loading_placeholder)
                     .into(banner)
-            content.loadData(item["body"], "text/html", "utf-8")
+            content.addJavascriptInterface(HtmlLoader(item["body"] ?: "", item["cssVer"] ?: ""), "loader")
         }
+        content.loadUrl("file:///android_asset/details.html")
     }
 
     override fun getItemCount(): Int {

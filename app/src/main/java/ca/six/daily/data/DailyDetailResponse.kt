@@ -11,12 +11,19 @@ class DailyDetailResponse(jsonStr: String) {
     var image: String
     var title: String
     var id: Long
+    var cssVer: String
+
+    val REDUNDANT_PART = "<div class=\"headline\">\n\n" +
+            "<div class=\"img-place-holder\"></div>\n\n\n\n" +
+            "</div>"
 
     init {
         val json = JSONObject(jsonStr)
-        body = json.optString("body")
+        body = json.optString("body").replace(REDUNDANT_PART, "")
         image = json.optString("image")
         title = json.optString("title")
         id = json.optLong("id", 0)
+        val css = json.optJSONArray("css")[0] as String
+        cssVer = css.substring(css.indexOf("=") - 1, css.length)
     }
 }

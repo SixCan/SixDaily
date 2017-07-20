@@ -7,12 +7,11 @@ import android.support.v7.widget.RecyclerView
 import ca.six.daily.R
 import ca.six.daily.core.BaseActivity
 import kotlinx.android.synthetic.main.activity_daily_detail.*
-import kotlin.collections.ArrayList
 
 // 详情页(id来自list屏)： https://news-at.zhihu.com/api/4/news/3892357   (应该是用WebView加载)
 class DailyDetailActivity : BaseActivity() {
     var selectedId: Long = 0
-    var ids: List<Long> = ArrayList<Long>()
+    lateinit var ids: List<Long>
     private lateinit var detailAdapter: RvDetailsAdapter
     private lateinit var layoutManager: LinearLayoutManager
 
