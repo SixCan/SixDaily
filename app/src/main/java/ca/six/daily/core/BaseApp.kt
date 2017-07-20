@@ -2,6 +2,7 @@ package ca.six.daily.core
 
 import android.app.Application
 import android.content.Context
+import com.squareup.leakcanary.LeakCanary
 import okhttp3.OkHttpClient
 import kotlin.properties.Delegates
 class BaseApp : Application() {

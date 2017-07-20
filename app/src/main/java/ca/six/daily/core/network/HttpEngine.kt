@@ -36,7 +36,7 @@ object HttpEngine {
         val observable = Observable.create<String> { emitter ->
                     val responseString = requestString(http, end)
                     if(ERROR == responseString) {
-                        emitter.onComplete()
+                        emitter.onError(NetworkError("Network or server is not available. Please try it later."))
                     } else {
                         emitter.onNext(responseString)
                     }
