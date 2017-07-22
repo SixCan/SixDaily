@@ -20,6 +20,8 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowEnvironment
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, sdk = intArrayOf(Build.VERSION_CODES.LOLLIPOP)
@@ -43,22 +45,35 @@ class DataUtilsTest {
     fun testReadCachedLatestNews_whenNoCache_shouldObserveComplete(){
         val test = TestObserver<String>()
         readCachedLatestNews().subscribe(test)
-        test.onComplete()
-    }
-
-    @Test
-    fun testReadCachedLatestNews_whenLatestCache_shouldObserveNext(){
-
+        test.assertComplete()
     }
 
     @Test
     fun testReadCachedLatestNews_whenCacheIsOld_shouldObserveComplete(){
+        prepareCacheFile(20160202) // a day that is prior to today
+
+        val test = TestObserver<String>()
+        readCachedLatestNews().subscribe(test)
+        test.assertComplete()
+    }
+
+    @Test
+    fun testReadCachedLatestNews_whenLatestCache_shouldObserveNext(){
+        val dateFormatter = SimpleDateFormat("yyyyMMdd", Locale.CHINA)
+        dateFormatter.timeZone = TimeZone.getTimeZone("GMT+8:00")
+        val nowTimeCn = dateFormatter.format(Date())
+        prepareCacheFile(nowTimeCn.toInt())
+
+        val test = TestObserver<String>()
+        readCachedLatestNews().subscribe(test)
+        test.assertValue("{ date: \"${nowTimeCn}\", stories: [] }")
 
     }
 
+
     private fun prepareCacheFile(date : Int){
         var fileContent = "{ date: \"${date}\", stories: [] }"
-
+        writeToCacheFile(fileContent, fileName)
     }
 
     // delete the file, so the test is stateless
