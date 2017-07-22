@@ -36,11 +36,6 @@ class DailyListPresenter(val view: IDailyListView) {
                     listData
                 }
                 .map { resp ->
-                    // save the date to identify the cache file
-                    save2Sp("latest_date", resp.date)
-                    resp
-                }
-                .map { resp ->
                     viewModels.add(ListTitleViewModel(resp.date))
                     resp.stories.forEach { story ->
                         viewModels.add(ListItemViewModel(story))
