@@ -6,6 +6,8 @@ import ca.six.daily.BuildConfig
 import ca.six.daily.core.BaseApp
 import ca.six.daily.utils.isCacheFileExist
 import ca.six.daily.utils.writeToCacheFile
+import io.reactivex.observers.TestObserver
+import io.reactivex.subscribers.TestSubscriber
 import org.junit.After
 import org.junit.Assert
 import org.junit.Test
@@ -39,7 +41,9 @@ class DataUtilsTest {
 
     @Test
     fun testReadCachedLatestNews_whenNoCache_shouldObserveComplete(){
-
+        val test = TestObserver<String>()
+        readCachedLatestNews().subscribe(test)
+        test.onComplete()
     }
 
     @Test
