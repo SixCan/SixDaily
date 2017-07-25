@@ -1,6 +1,11 @@
 package ca.six.daily.biz.home
 
+import android.os.Build
+import ca.six.daily.BuildConfig
+import ca.six.daily.core.BaseApp
 import ca.six.daily.core.network.HttpEngine
+import ca.six.daily.data.DailyListResponse
+import ca.six.daily.utils.writeToCacheFile
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import org.junit.Test
@@ -16,7 +21,13 @@ import org.junit.After
 import io.reactivex.plugins.RxJavaPlugins
 
 import org.junit.Assert.*
+import org.junit.runner.RunWith
 import org.mockito.Mockito.*
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, sdk = intArrayOf(Build.VERSION_CODES.LOLLIPOP)
@@ -61,6 +72,30 @@ class DailyListPresenterTest {
 
     }
 
+    @Test
+    fun testRequestData_whenCacheIsOld_thenGoGetHttpData(){
+        prepareCacheFile(20001212)
+        prepareHttpData()
+
+        presenter.requestData()
+
+        verify(view).refresh(anyList())
+        assertEquals(1, presenter.ids.size)
+        assertEquals(9517717, presenter.ids[0])
+    }
+
+    @Test
+    fun testRequestData_whenCacheIsNew_thenUseCacheData(){
+        val dateFormatter = SimpleDateFormat("yyyyMMdd", Locale.CHINA)
+        dateFormatter.timeZone = TimeZone.getTimeZone("GMT+8:00")
+        val nowTimeCn = dateFormatter.format(Date())
+        prepareCacheFile(nowTimeCn.toInt())
+
+        presenter.requestData()
+
+        assertEquals(0, presenter.ids.size)
+
+    }
 
     private fun prepareHttpData(){
         HttpEngine.isMock = true
