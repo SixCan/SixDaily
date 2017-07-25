@@ -4,7 +4,6 @@ import android.os.Build
 import ca.six.daily.BuildConfig
 import ca.six.daily.core.BaseApp
 import ca.six.daily.core.network.HttpEngine
-import ca.six.daily.data.DailyListResponse
 import ca.six.daily.utils.writeToCacheFile
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
@@ -94,8 +93,29 @@ class DailyListPresenterTest {
         presenter.requestData()
 
         assertEquals(0, presenter.ids.size)
-
     }
+
+    @Test
+    fun testClick_whenGotHttpData_clickSuccessfully(){
+        prepareCacheFile(20001212)
+        prepareHttpData()
+
+        presenter.requestData()
+        presenter.jumpToDetail(1) // the first item (index: 0) is a title
+
+        val ids = longArrayOf(9517717L)
+        verify(view).jumpToDetilsPage(9517717, ids)
+    }
+
+    @Test(expected = IndexOutOfBoundsException::class)
+    fun testClick_whenGotHttpData_clickWrongIndex_thenError(){
+        prepareCacheFile(20001212)
+        prepareHttpData()
+
+        presenter.requestData()
+        presenter.jumpToDetail(10)
+    }
+
 
     private fun prepareHttpData(){
         HttpEngine.isMock = true
@@ -120,36 +140,4 @@ class DailyListPresenterTest {
     }
 
 }
-//
-//    @Test
-//    fun testRequestData_gotSuccessfulData_thenRefreshView() {
-//        prepareOneStoryStubData()
-//
-//        presenter.requestData()
-//
-//        verify(view).refresh(anyList())
-//        assertEquals(1, presenter.ids.size)
-//        assertEquals(9517717, presenter.ids[0])
-//
-//    }
-//
-//    @Test
-//    fun testJumpToDetail_gotSuccessuflData_thenClickFirst(){
-//        prepareOneStoryStubData()
-//
-//        presenter.requestData()
-//        presenter.jumpToDetail(1) // the first item (index: 0) is a title
-//
-//        val ids = longArrayOf(9517717L)
-//        verify(view).jumpToDetilsPage(9517717, ids)
-//    }
-//
-//    @Test(expected = IndexOutOfBoundsException::class)
-//    fun testJumpToDetail_gotSuccessuflData_thenClickWrongPosition(){
-//        prepareOneStoryStubData()
-//
-//        presenter.requestData()
-//        presenter.jumpToDetail(10)
-//
-//    }
 
