@@ -11,8 +11,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class CheckUpdateResponse {
-    public static final int NO_UPDATE = 0;
-    public static final int HAS_UPDATE = 1;
+    private static final int NO_UPDATE = 0;
+    private static final int HAS_UPDATE = 1;
 
     @AppUpdateStatus
     public int status;
@@ -33,6 +33,11 @@ public class CheckUpdateResponse {
             }
         }
     }
+
+    public boolean isNoUpdate(){
+        return status == NO_UPDATE;
+    }
+
 
     @IntDef({NO_UPDATE, HAS_UPDATE})
     @Retention(RetentionPolicy.SOURCE)

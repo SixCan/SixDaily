@@ -2,6 +2,7 @@ package ca.six.daily.biz.aboutme
 
 import ca.six.daily.core.network.HttpEngine
 import ca.six.daily.data.CheckUpdateResponse
+import io.reactivex.Observable
 
 class AboutMePresenter {
 
@@ -9,11 +10,22 @@ class AboutMePresenter {
     // todo : 2. add the if/else chain in subscribe (x)
     fun checkForUpdate(){
         HttpEngine.request("version/android/2.5.1")
-                .map{ jsonString -> CheckUpdateResponse(jsonString) }
-                .subscribe{
-
+                .flatMap { jsonString ->
+                    println("szw : resp = ${jsonString}")
+                    val resp = CheckUpdateResponse(jsonString)
+                    if(resp.isNoUpdate) {
+                        Observable.error<NoUpdateException>(NoUpdateException("No new app version."))
+                    } else {
+                        Observable.just(resp)
+                    }
                 }
+                .subscribe(
+                        {resp -> println("szw ${resp/*.message*/}")},
+                        {println("szw ${it.localizedMessage}")}
+                )
+
     }
+
 }
 
 
