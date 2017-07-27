@@ -7,7 +7,7 @@ import io.reactivex.Observable
 class AboutMePresenter(val view: IAboutMeView) {
 
     fun checkForUpdate() {
-        HttpEngine.request("version/android/2.5.1")
+        HttpEngine.request("version/android/2.5.0")
                 .flatMap { jsonString ->
                     println("szw : resp = ${jsonString}")
                     val resp: CheckUpdateResponse = CheckUpdateResponse(jsonString)

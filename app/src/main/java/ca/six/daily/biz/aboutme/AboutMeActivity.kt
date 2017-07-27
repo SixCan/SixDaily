@@ -26,6 +26,7 @@ class AboutMeActivity : BaseActivity(), IAboutMeView {
                     println("szw click okay. Start updating.")
                 })
                 .create()
+        dialog.show()
     }
 
     override fun showNoUpdate() {
