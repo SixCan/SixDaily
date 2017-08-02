@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import ca.six.daily.core.BaseActivity
 import ca.six.daily.R
+import ca.six.daily.core.network.HttpEngine
 import ca.six.daily.data.CheckUpdateResponse
 import ca.six.daily.utils.showToast
 
@@ -24,6 +25,8 @@ class AboutMeActivity : BaseActivity(), IAboutMeView {
                 .setMessage(resp.message)
                 .setPositiveButton("Download", { dialog, which ->
                     println("szw click okay. Start updating.")
+                    HttpEngine.downloadFile("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2859174087,963187950&fm=23&gp=0.jpg",
+                            "a000.jpg")
                 })
                 .create()
         dialog.show()
