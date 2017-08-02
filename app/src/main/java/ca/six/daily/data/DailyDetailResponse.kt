@@ -22,6 +22,6 @@ class DailyDetailResponse(jsonStr: String) {
         title = json.optString("title")
         id = json.optLong("id", 0)
         val css = json.optJSONArray("css")[0] as String
-        cssVer = if(css.isNotEmpty()) css.substring(css.indexOf("=") - 1, css.length) else ""
+        cssVer = if(css.isNotEmpty()) css.substring(css.indexOf("=") + 1, css.length) else ""
     }
 }

@@ -13,8 +13,6 @@ import io.reactivex.Observable
 class DailyDetailPresenter(val view: IDailyDetailView) {
 
     fun getDetails(id: Long) {
-        val details = hashMapOf<String, String>()
-
         val cachedObservable = readCachedDetails(id)
                 .map { it }
         val networkObservable = HttpEngine.request("news/$id")
