@@ -30,12 +30,12 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long, 
             dataRight.add(it)
         }
         refreshCount = ids.size - dataRight.size
-        presenter.getDetails(selectedId)
 
         dataRight.forEach {
             val item = HashMap<String, String>()
             data.add(item)
         }
+        presenter.getDetails(selectedId)
     }
 
     override fun onBindViewHolder(holder: RvViewHolder, position: Int) {

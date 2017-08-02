@@ -13,9 +13,7 @@ class DailyDetailResponse(jsonStr: String) {
     var id: Long
     var cssVer: String
 
-    val REDUNDANT_PART = "<div class=\"headline\">\n\n" +
-            "<div class=\"img-place-holder\"></div>\n\n\n\n" +
-            "</div>"
+    val REDUNDANT_PART = "<div class=\"img-place-holder\"></div>\n\n\n\n"
 
     init {
         val json = JSONObject(jsonStr)
