@@ -27,17 +27,9 @@ class DailyDetailPresenter(val view: IDailyDetailView) {
                 .map {
                     DailyDetailResponse(it)
                 }
-                .map {
-                    details.put("title", it.title)
-                    details.put("body", it.body)
-                    details.put("image", it.image)
-                    details.put("id", it.id.toString())
-                    details.put("cssVer", it.cssVer)
-                    details
-                }
-                .subscribe {
+                .subscribe { response ->
                     println("DailyDetailPresenter-subscribe")
-                    view.updateDetails(details)
+                    view.updateDetails(response)
                 }
     }
 }
