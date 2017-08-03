@@ -5,17 +5,19 @@ import ca.six.daily.BuildConfig
 import ca.six.daily.core.BaseApp
 import ca.six.daily.core.network.HttpEngine
 import ca.six.daily.data.DailyDetailResponse
+import ca.six.daily.utils.writeToCacheFile
 import io.reactivex.Scheduler
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.disposables.Disposable
 import io.reactivex.internal.schedulers.ExecutorScheduler
 import io.reactivex.plugins.RxJavaPlugins
 import org.junit.After
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -75,17 +77,22 @@ class DailyDetailPresenterTest {
     }
 
     @Test fun testGetDetails_whenNoCache_sendNetworkRequest() {
-        tearDown()
         prepareMockData()
-
         presenter.getDetails(articleId)
         val expectedResponse = DailyDetailResponse(HttpEngine.mockJson)
 
-        Mockito.verify(view).updateDetails(expectedResponse)
+        verify(view).updateDetails(expectedResponse)
+        assertFalse(presenter.isCached)
     }
 
     @Test fun testGetDetails_whenHasCache_loadCachedData() {
+        prepareMockData()
+        writeToCacheFile(HttpEngine.mockJson, fileName)
+        presenter.getDetails(articleId)
+        val expectedResponse = DailyDetailResponse(HttpEngine.mockJson)
 
+        verify(view).updateDetails(expectedResponse)
+        assertTrue(presenter.isCached)
     }
 
     @Test fun testGetDetails_whenNoCache_sendNetworkRequest_expectNetworkError() {
