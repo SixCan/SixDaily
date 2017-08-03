@@ -94,9 +94,4 @@ class DailyDetailPresenterTest {
         verify(view).updateDetails(expectedResponse)
         assertTrue(presenter.isCached)
     }
-
-    @Test fun testGetDetails_whenNoCache_sendNetworkRequest_expectNetworkError() {
-
-    }
-
 }
