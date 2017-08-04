@@ -11,12 +11,14 @@ import io.reactivex.Observable
  * Created by Xiaolin on 2017-07-10.
  */
 class DailyDetailPresenter(val view: IDailyDetailView) {
+    var isCached: Boolean = false
 
     fun getDetails(id: Long) {
-        val details = hashMapOf<String, String>()
-
         val cachedObservable = readCachedDetails(id)
-                .map { it }
+                .map {
+                    isCached = true
+                    it
+                }
         val networkObservable = HttpEngine.request("news/$id")
                 .map { jsonResp ->
                     writeToCacheFile(jsonResp, "news_$id.json")
@@ -27,17 +29,9 @@ class DailyDetailPresenter(val view: IDailyDetailView) {
                 .map {
                     DailyDetailResponse(it)
                 }
-                .map {
-                    details.put("title", it.title)
-                    details.put("body", it.body)
-                    details.put("image", it.image)
-                    details.put("id", it.id.toString())
-                    details.put("cssVer", it.cssVer)
-                    details
-                }
-                .subscribe {
+                .subscribe { response ->
                     println("DailyDetailPresenter-subscribe")
-                    view.updateDetails(details)
+                    view.updateDetails(response)
                 }
     }
 }

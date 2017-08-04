@@ -22,6 +22,32 @@ class DailyDetailResponse(jsonStr: String) {
         title = json.optString("title")
         id = json.optLong("id", 0)
         val css = json.optJSONArray("css")[0] as String
-        cssVer = css.substring(css.indexOf("=") - 1, css.length)
+        cssVer = if(css.isNotEmpty()) css.substring(css.indexOf("=") + 1, css.length) else ""
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+
+        other as DailyDetailResponse
+
+        if (body != other.body) return false
+        if (image != other.image) return false
+        if (title != other.title) return false
+        if (id != other.id) return false
+        if (cssVer != other.cssVer) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = body.hashCode()
+        result = 31 * result + image.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + cssVer.hashCode()
+        return result
+    }
+
+
 }

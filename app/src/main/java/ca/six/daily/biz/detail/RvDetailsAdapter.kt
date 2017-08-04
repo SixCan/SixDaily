@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ImageView
 import ca.six.daily.R
+import ca.six.daily.data.DailyDetailResponse
 import ca.six.daily.view.RvViewHolder
 import com.squareup.picasso.Picasso
 
@@ -17,12 +18,13 @@ import com.squareup.picasso.Picasso
  */
 class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long, val layoutManager: LinearLayoutManager) :
         RecyclerView.Adapter<RvViewHolder>(), IDailyDetailView {
-    private var data = ArrayList<HashMap<String, String>>()
+    private var data = ArrayList<DailyDetailResponse>()
     private var dataRight : ArrayList<Long> = ArrayList<Long>()
     private val presenter: DailyDetailPresenter = DailyDetailPresenter(this)
     private var separatedPos: Int = 0
     private var currentPos: Int = 0
     private var refreshCount: Int = 0
+    private val emptyJsonStr = "{\"body\":\"\",\"image_source\":\"\",\"title\":\"\",\"image\":\"file path\",\"share_url\":\"\",\"js\":[],\"ga_prefix\":\"080219\",\"images\":[\"\"],\"type\":0,\"id\":0,\"css\":[\"\"]}"
 
     init {
         separatedPos = if (ids.indexOf(selectedId) > -1) ids.indexOf(selectedId) else 0
@@ -32,7 +34,7 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long, 
         refreshCount = ids.size - dataRight.size
 
         dataRight.forEach {
-            val item = HashMap<String, String>()
+            val item = DailyDetailResponse(emptyJsonStr)
             data.add(item)
         }
         presenter.getDetails(selectedId)
@@ -46,10 +48,11 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long, 
         if (size > 0 && position < size) {
             val item = data[position]
             Picasso.with(ctx)
-                    .load(item["image"])
+                    .load(item.image)
+                    .error(R.drawable.loading_placeholder)
                     .placeholder(R.drawable.loading_placeholder)
                     .into(banner)
-            content.addJavascriptInterface(HtmlLoader(item["body"] ?: "", item["cssVer"] ?: ""), "loader")
+            content.addJavascriptInterface(HtmlLoader(item.body, item.cssVer), "loader")
         }
         content.loadUrl("file:///android_asset/details.html")
     }
@@ -62,23 +65,23 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long, 
         return RvViewHolder.createViewHolder(parent, R.layout.item_daily_details)
     }
 
-    override fun updateDetails(details: HashMap<String, String>) {
+    override fun updateDetails(details: DailyDetailResponse) {
         data[currentPos] = details
         notifyDataSetChanged()
     }
 
     fun changeCurrentPosition(pos: Int, isMoveEnd: Boolean) {
         println("change-pos: $pos")
-        val selectedId: String
+        val selectedId: Long
         if(isMoveEnd && pos == 0 && refreshCount > 0){
-            data.add(0, HashMap<String, String>())
+            data.add(0, DailyDetailResponse(emptyJsonStr))
             refreshCount -= 1
             dataRight.add(0, ids[refreshCount])
-            selectedId = dataRight[0].toString()
+            selectedId = dataRight[0]
             currentPos = 0
             println("xxl-add")
         } else {
-            selectedId = dataRight[pos].toString()
+            selectedId = dataRight[pos]
             currentPos = pos
             println("xxl-read")
         }
@@ -88,12 +91,12 @@ class RvDetailsAdapter(val ctx: Context, val ids: List<Long>, selectedId: Long, 
 
         var isCached = false
         data.forEach {
-            if (it["id"].equals(selectedId)) {
+            if (it.id == selectedId) {
                 isCached = true
             }
         }
         if (!isCached) {
-            presenter.getDetails(selectedId.toLong())
+            presenter.getDetails(selectedId)
         }
     }
 }
