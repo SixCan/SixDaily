@@ -72,9 +72,7 @@ object HttpEngine {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    val parent = BaseApp.app.externalCacheDir
-                    val file = File(parent, localFile)
-                    println("szw 003 : file? = ${file.exists()} | fileSize = ${file.length()}")
+                    // TODO install apk
                 }
     }
 
