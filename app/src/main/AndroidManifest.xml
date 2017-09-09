@@ -10,6 +10,7 @@
         android:icon="@drawable/ic_launcher" android:roundIcon="@drawable/ic_launcher_round"
         android:theme="@style/AppTheme">
 
+        <!--<activity android:name=".biz.aboutme.AboutMeActivity">-->
         <activity android:name=".biz.home.DailyListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
