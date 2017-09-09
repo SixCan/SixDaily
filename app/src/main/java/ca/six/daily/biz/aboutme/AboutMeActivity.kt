@@ -25,8 +25,8 @@ class AboutMeActivity : BaseActivity(), IAboutMeView {
                 .setMessage(resp.message)
                 .setPositiveButton("Download", { dialog, which ->
                     println("szw click okay. Start updating.")
-                    HttpEngine.downloadFile("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2859174087,963187950&fm=23&gp=0.jpg",
-                            "a000.jpg")
+//                    HttpEngine.downloadFile("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2859174087,963187950&fm=23&gp=0.jpg", "a000.jpg")
+                    HttpEngine.downloadFile(resp.url, "SixDaily.apk")
                 })
                 .create()
         dialog.show()

@@ -52,25 +52,30 @@ object HttpEngine {
 
     fun downloadFile(remoteFile: String, localFile: String) {
         val request = Request.Builder().url(remoteFile).build()
+        val parent = BaseApp.app.externalCacheDir //=>path = /storage/emulated/0/Android/data/ca.six.daily/cache
+        val file = File(parent, localFile)
+
         Observable.create<Response> { emitter ->
                     val response = http.newCall(request).execute()
                     emitter.onNext(response)
                 }
                 .map { resp ->
-                    println("szw 001")
-                    val parent = BaseApp.app.externalCacheDir
-                    val downloadFile = File(parent, localFile)
-                    if (!downloadFile.exists()) {
-                        downloadFile.createNewFile()
+                    println("szw 001 : file? = ${file.exists()} | fileSize = ${file.length()}")
+                    if (!file.exists()) {
+                        file.createNewFile()
                     }
-                    val sink = Okio.buffer(Okio.sink(downloadFile))
+                    val sink = Okio.buffer(Okio.sink(file))
                     sink.writeAll(resp.body()!!.source())
                     sink.close()
                     println("szw 002")
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { println("szw 003") }
+                .subscribe {
+                    val parent = BaseApp.app.externalCacheDir
+                    val file = File(parent, localFile)
+                    println("szw 003 : file? = ${file.exists()} | fileSize = ${file.length()}")
+                }
     }
 
 }
