@@ -64,15 +64,42 @@ dependencies {
 
 }
 
-buildscript {
-    repositories {
-        jcenter() { url 'http://jcenter.bintray.com' }
+public class BuildTimeListener implements TaskExecutionListener, BuildListener{
+    private Clock clock
+    private times = []
+
+    @Override
+    void buildStarted(Gradle gradle) {    }
+
+    @Override
+    void beforeExecute(Task task) {
+        clock = new org.gradle.util.Clock();
     }
 
-    dependencies {
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.1'
+    @Override
+    void settingsEvaluated(Settings settings) {    }
+
+    @Override
+    void afterExecute(Task task, TaskState state) {
+        def timePassed = clock.timeInMs
+        times.add([timePassed, task.path])
+    }
+
+    @Override
+    void projectsLoaded(Gradle gradle) {     }
+    @Override
+    void projectsEvaluated(Gradle gradle) {    }
+
+    @Override
+    void buildFinished(BuildResult result) {
+        println "Task spend time (only tasks that is over 50ms): "
+        for(time in times){
+            if(time[0] > 50) {
+                printf "%7sms   %s\n", time  //不能用println, 因为没这方法. 我试过了
+            }
+        }
     }
 }
 
-// make sure this line comes *after* you apply the Android plugin
-apply plugin: 'com.getkeepsafe.dexcount'
+project.gradle.addListener(new BuildTimeListener())
+
