@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "ca.six.daily"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -26,9 +26,11 @@ android {
     }
 }
 
-def supportVersion = "25.3.1"
+def supportVersion = "27.1.1"
 def rxbindingVersion = "2.0.0"
 def rxlifecycleVersion = "2.1.0"
+def leakcanaryVersion = "1.5.4"
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -48,23 +50,23 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:3.8.1"
     testImplementation "com.squareup.okhttp3:mockwebserver:3.8.1"
 
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.5.1"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.5.1"
-    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.5.1"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
 
     testImplementation "junit:junit:4.12"
-    testImplementation "org.mockito:mockito-core:2.7.5"
-    testImplementation "org.robolectric:robolectric:3.3.2"
+    testImplementation "org.mockito:mockito-core:2.7.6"
+    testImplementation "org.robolectric:robolectric:3.4.2"
     testImplementation "org.json:json:20160810"
 
-    androidTestImplementation "com.android.support.test:runner:0.5"
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
     androidTestImplementation("com.android.support.test.espresso:espresso-core:2.2.2", {
         exclude group: "com.android.support", module: "support-annotations"
     })
 
 }
 
-public class BuildTimeListener implements TaskExecutionListener, BuildListener{
+class BuildTimeListener implements TaskExecutionListener, BuildListener{
     private Clock clock
     private times = []
 
@@ -73,7 +75,7 @@ public class BuildTimeListener implements TaskExecutionListener, BuildListener{
 
     @Override
     void beforeExecute(Task task) {
-        clock = new org.gradle.util.Clock();
+        clock = new Clock(new Date().getTime())
     }
 
     @Override
@@ -81,7 +83,7 @@ public class BuildTimeListener implements TaskExecutionListener, BuildListener{
 
     @Override
     void afterExecute(Task task, TaskState state) {
-        def timePassed = clock.timeInMs
+        def timePassed = clock.startTime
         times.add([timePassed, task.path])
     }
 
